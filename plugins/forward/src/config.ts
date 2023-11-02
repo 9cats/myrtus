@@ -3,6 +3,7 @@ import { Schema, Dict, Time } from 'koishi'
 interface Source {
     channelId: string
     name: string
+    selfId: string
     platform: string
     guildId: string
     blockingWords: string[]
@@ -88,6 +89,7 @@ const rule: Schema<Rule> = Schema.object({
 const sourceConst: Schema<SourceConst> = Schema.object({
     type: Schema.const('source').required(),
     name: Schema.string().required(),
+    selfId: Schema.string().required().default('*'),
     ...share,
     blockingWords: Schema.array(String).role('table')
 })

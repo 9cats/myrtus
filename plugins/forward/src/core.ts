@@ -49,7 +49,11 @@ export function apply(ctx: Context, config: Config) {
             continue
         }
 
-        const listened = ctx.platform(sConfig.platform).guild(sConfig.guildId).channel(sConfig.channelId)
+        let listened = ctx
+        if(sConfig.selfId !== "*") listened = listened.self(sConfig.selfId)
+        if(sConfig.channelId !== "*") listened = listened.channel(sConfig.channelId)
+        if(sConfig.guildId !== "*") listened = listened.guild(sConfig.guildId)
+        
         listened.middleware(async (session, next) => {
             const { event, sid } = session
             if (event.type !== 'message-created' || event.message.elements.length === 0) {
